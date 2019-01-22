@@ -1,0 +1,11 @@
+FROM alpine
+LABEL author="Gustavo Henrique <gustavo@gustavohenrique.net>"
+
+WORKDIR /root
+
+RUN sh -c 'apk add --update wget unzip \
+ && wget https://github.com/sosedoff/pgweb/releases/download/v0.11.0/pgweb_linux_amd64.zip \
+ && unzip pgweb_linux_amd64.zip \
+ && mv pgweb_linux_amd64 /usr/local/bin'
+
+ENTRYPOINT ["pgweb_linux_amd64"]

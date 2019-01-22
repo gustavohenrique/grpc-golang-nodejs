@@ -1,0 +1,56 @@
+version: "3"
+services:
+  catalog:
+    build: ./catalog
+    container_name: catalog
+    hostname: catalog
+    ports:
+      - "11080:11080"
+    expose:
+      - "11080"
+    depends_on:
+      - db
+    environment:
+      - PORT=11080
+      - DATABASE_URL=postgres://admin:password@db:5432/mydb?sslmode=disable
+      - DISCOUNT_SERVICE_HOST=discount:11443
+  
+  discount:
+    build: ./discount
+    container_name: discount
+    hostname: discount
+    ports:
+      - "11443:11443"
+    expose:
+      - "11443"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://admin:password@db:5432/mydb
+      - BIRTHDATE_DISCOUNT_VALUE=0.05
+      - BLACKFRIDAY_DISCOUNT_VALUE=0.1
+      - BLACKFRIDAY_DATE=11-25
+    
+  db:
+    build: ./_db
+    container_name: db
+    hostname: db
+    ports:
+      - "5454:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=mydb
+  
+  pgweb:
+    build:
+      context: ./_db
+      dockerfile: Dockerfile-pgweb
+    container_name: pgweb
+    depends_on:
+      - db
+    ports:
+      - "8899:8899"
+    environment:
+      - DATABASE_URL=postgres://admin:password@db:5432/mydb?sslmode=disable
+    command: pgweb_linux_amd64 --listen 8899 --bind 0.0.0.0

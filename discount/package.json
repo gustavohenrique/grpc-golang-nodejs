@@ -1,0 +1,32 @@
+{
+  "name": "discount",
+  "version": "0.0.1",
+  "description": "Discount service",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gustavohenrique/grpc-golang-nodejs.git"
+  },
+  "keywords": [
+    "grpc",
+    "protobuf",
+    "microservice"
+  ],
+  "author": "Gustavo Henrique",
+  "license": "MIT",
+  "dependencies": {
+    "google-protobuf": "^3.6.1",
+    "grpc": "^1.18.0",
+    "pg": "^7.8.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "mockdate": "^2.0.2",
+    "sinon": "^7.2.3"
+  }
+}
